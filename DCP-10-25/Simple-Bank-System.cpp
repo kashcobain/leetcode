@@ -1,50 +1,43 @@
 class Bank {
-    private:
-     unordered_map<int,long long> mp;
-     int n;
-public:
-
-    bool isval(int acc)
-    {
-        if(acc<1 || acc>n)return false;
+private: 
+    bool isValid(int num){
+        if(num > n || num<1) return false;
         return true;
     }
+public:
+    unordered_map<int, long long> mp;
+    int n;
     Bank(vector<long long>& balance) {
-        n=balance.size();
-      
-        for(int i=1;i<=n;i++)
-        {
-            mp[i]=balance[i-1];
+        n = balance.size();
+        for(int i=1; i<=balance.size(); i++){
+            mp[i] = balance[i-1];
         }
-        
     }
     
     bool transfer(int account1, int account2, long long money) {
-        if(!isval(account1)|| !isval(account2))return false;
-        if(money>mp[account1])
-        {
+        if(!isValid(account1) || !isValid(account2)){
+            return false;
+        }
+        if(money>mp[account1]){
             return false;
         }
         else{
-            mp[account1]-=money;
-            mp[account2]+=money;
+            mp[account2] += money;
+            mp[account1] -= money;
+            return true;
         }
-        return true;
-        
     }
     
     bool deposit(int account, long long money) {
-        if(!isval(account))return false;
-        mp[account]+=money;
+        if(!isValid(account)) return false;
+        mp[account] += money;
         return true;
-        
     }
     
     bool withdraw(int account, long long money) {
-        if(money>mp[account] || !isval(account))return false;
-        mp[account]-=money;
+        if(money > mp[account] || !isValid(account)) return false;
+        mp[account] -= money;
         return true;
-        
     }
 };
 
