@@ -1,43 +1,45 @@
 class Bank {
-private: 
-    bool isValid(int num){
-        if(num > n || num<1) return false;
-        return true;
-    }
 public:
-    unordered_map<int, long long> mp;
-    int n;
+    vector<pair<int, long long>> vp;
+    int accounts;
     Bank(vector<long long>& balance) {
-        n = balance.size();
-        for(int i=1; i<=balance.size(); i++){
-            mp[i] = balance[i-1];
+        for(int i=0; i<balance.size(); i++){
+            vp.push_back({i, balance[i]});
         }
+
+        accounts = balance.size();
     }
     
     bool transfer(int account1, int account2, long long money) {
-        if(!isValid(account1) || !isValid(account2)){
-            return false;
+        if((account1 >=1 && account1 <= accounts) && (account2 >= 1 && account2 <= accounts)){
+            if(vp[account1-1].second >= money){
+                vp[account1-1].second -= money;
+                vp[account2-1].second += money;
+                return true;
+            }
         }
-        if(money>mp[account1]){
-            return false;
-        }
-        else{
-            mp[account2] += money;
-            mp[account1] -= money;
-            return true;
-        }
+
+        return false;
     }
     
     bool deposit(int account, long long money) {
-        if(!isValid(account)) return false;
-        mp[account] += money;
-        return true;
+        if(account >= 1 && account <= accounts){
+            vp[account-1].second += money;
+            return true;
+        }
+
+        return false;
     }
     
     bool withdraw(int account, long long money) {
-        if(money > mp[account] || !isValid(account)) return false;
-        mp[account] -= money;
-        return true;
+        if(account >= 1 && account <= accounts){
+            if(vp[account-1].second >= money){
+                vp[account-1].second -= money;
+                return true;
+            }
+        }
+
+        return false;
     }
 };
 
