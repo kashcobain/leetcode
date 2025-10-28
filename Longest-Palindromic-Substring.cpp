@@ -1,45 +1,36 @@
 class Solution {
 public:
-    bool ispal(string &s, int i, int j, vector<vector<int>> &dp) {
-        if (dp[i][j] != -1) return dp[i][j] == 1;
-        if (i >= j) {
-            dp[i][j] = 1;
-            return true;
-        }
-        if (s[i] != s[j]) {
-            dp[i][j] = 0;
-            return false;
-        }
-
-        if (ispal(s, i + 1, j - 1, dp)) {
-            dp[i][j] = 1;
-            return true;
-        } else {
-            dp[i][j] = 0;
-            return false;
-        }
-    }
-
     string longestPalindrome(string s) {
-        int n = s.size();
-        vector<vector<int>> dp(n, vector<int>(n, -1));
-        if (n == 1) return s;
+        int n=s.size();
+        int start=0;
+        int maxlen=1;
+        vector<vector<bool>> dp(n,vector<bool>(n,false));
+        for(int i=0;i<n;i++)dp[i][i]=true;
+        for(int i=0;i<n-1;i++)
+        {
+            if(s[i]==s[i+1])
+            {
+                dp[i][i+1]=true;
+                maxlen=2;
+                start=i;
+            }
 
-        int maxlen = 0;
-        int start = 0;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                if (ispal(s, i, j, dp)) {
-                    int len = j - i + 1;
-                    if (len > maxlen) {
-                        maxlen = len;
-                        start = i;
-                    }
+        }
+        for(int len=3;len<=n;len++)
+        {
+            for(int i=0;i+len-1<n;i++)
+            {
+                int j=i+len-1;
+                if(s[i]==s[j] && dp[i+1][j-1])
+                {
+                    dp[i][j]=true;
+if(len>maxlen){
+    maxlen=len;
+    start=i;
+}
                 }
             }
         }
-
-        return s.substr(start, maxlen);
+        return s.substr(start,maxlen);
     }
 };
