@@ -18,13 +18,14 @@ public:
         return matrix;
      }
     bool findRotation(vector<vector<int>>& mat, vector<vector<int>>& target) {
-        vector<vector<int>> mat1=rotate(mat);
-        vector<vector<int>> mat2=rotate(mat);
-        vector<vector<int>> mat3=rotate(mat);
-        vector<vector<int>> mat4=rotate(mat);
-        if(target==mat1 || target==mat2 || target==mat3 || target==mat4)
-        {
-            return true;
+        for(int i=0;i<=3;i++){
+            rotate(mat);
+            if(mat==target){
+                return true;
+            }
+            else{
+                continue;
+            }
         }
         return false;
         
