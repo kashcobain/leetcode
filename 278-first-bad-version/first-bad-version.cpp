@@ -17,6 +17,7 @@ public:
                 low=mid+1;
             }
         }
+        // return low krare hain kyuki humein leftmost chahiye or low<high kyuki exact mhi find kr rhe hain
         return low;
     }
 };
