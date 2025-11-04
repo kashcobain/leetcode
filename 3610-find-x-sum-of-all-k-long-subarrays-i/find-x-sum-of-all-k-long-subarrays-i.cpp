@@ -10,25 +10,25 @@ public:
         for (int i = 0; i <= n - k; i++) {
             unordered_map<int, int> freq;
 
-            // Step 1: Count frequencies in current window
+            // Step 1: count frequency in window
             for (int j = i; j < i + k; j++) {
                 freq[nums[j]]++;
             }
 
-            // Step 2: Make a max-heap (priority queue)
-            // pair<frequency, number> — greater frequency first
-            priority_queue<pair<int,int>> pq;
+            // Step 2: make min-heap (keep top x elements)
+            // Heap sorted by frequency (smallest on top)
+            priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
 
             for (auto &it : freq) {
-                pq.push({it.second, it.first});
+                pq.push({it.second, it.first});  // {freq, num}
+                if (pq.size() > x) pq.pop();     // pop smallest freq
             }
 
-            // Step 3: Take top x elements from heap
+            // Step 3: sum top x (remaining in heap)
             int xsum = 0;
-            for (int l = 0; l < x && !pq.empty(); l++) {
-                auto top = pq.top();
-                pq.pop();
-                xsum += top.first * top.second;  // freq * number (depends on problem)
+            while (!pq.empty()) {
+                auto top = pq.top(); pq.pop();
+                xsum += top.first * top.second;  // freq * num (as per problem)
             }
 
             ans.push_back(xsum);
