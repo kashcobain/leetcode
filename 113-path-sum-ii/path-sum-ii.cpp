@@ -11,26 +11,31 @@
  */
 class Solution {
 public:
-    void pathsum(TreeNode* root,vector<vector<int>> &ans,int target,vector<int> currpath)
-    {
-        if(root==nullptr)return ;
-        currpath.push_back(root->val);
-        if(root->left==nullptr && root->right==nullptr)
-        {
-            if(root->val==target )
-            {
-                ans.push_back(currpath);
-                return; 
-            }
-            return;
+    void dfs(TreeNode* root, int target, vector<int>& path, vector<vector<int>>& ans) {
+        // Base case
+        if (!root) return;
+
+        // Step 1: Include current node
+        path.push_back(root->val);
+
+        // Step 2: Check if it’s a leaf and path sum matches target
+        if (!root->left && !root->right && root->val == target) {
+            ans.push_back(path);  // store a copy of the current path
+        } 
+        else {
+            // Step 3: Explore left and right subtrees
+            dfs(root->left, target - root->val, path, ans);
+            dfs(root->right, target - root->val, path, ans);
         }
-       pathsum(root->left,ans,target-root->val,currpath);
-       pathsum(root->right,ans,target-root->val,currpath);
+
+        // Step 4: Backtrack — remove current node before returning
+        path.pop_back();
     }
+
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
         vector<vector<int>> ans;
-        pathsum(root,ans,targetSum,{});
+        vector<int> path;
+        dfs(root, targetSum, path, ans);
         return ans;
-        
     }
 };
