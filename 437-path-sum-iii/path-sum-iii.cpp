@@ -29,8 +29,7 @@ private:
         count += dfs(node->right, currentSum, targetSum, prefixSumCount);
 
         prefixSumCount[currentSum]--;
-        if (prefixSumCount[currentSum] == 0) prefixSumCount.erase(currentSum);
-
+        
         return count;
     }
 };
