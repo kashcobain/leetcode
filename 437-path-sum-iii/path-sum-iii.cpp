@@ -1,31 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    int count = 0;
-
-    void dfs(TreeNode* root, int targetSum, vector<int>& path) {
-        if (!root) return;
-
-        // Step 1: Add current node
-        path.push_back(root->val);
-
-        // Step 2: Check all suffix sums
-        long long sum = 0;
-        for (int i = path.size() - 1; i >= 0; i--) {
-            sum += path[i];
-            if (sum == targetSum) count++;
-        }
-
-        // Step 3: Explore left and right
-        dfs(root->left, targetSum, path);
-        dfs(root->right, targetSum, path);
-
-        // Step 4: Backtrack
-        path.pop_back();
+    int pathSum(TreeNode* root, int targetSum) {
+        unordered_map<long long, int> prefixSumCount;
+        prefixSumCount[0] = 1; 
+        return dfs(root, 0, targetSum, prefixSumCount);
     }
 
-    int pathSum(TreeNode* root, int targetSum) {
-        vector<int> path;
-        dfs(root, targetSum, path);
+private:
+    int dfs(TreeNode* node, long long currentSum, int targetSum, unordered_map<long long, int>& prefixSumCount) {
+        if (!node) return 0;
+
+        currentSum += node->val;
+        int count = prefixSumCount[currentSum - targetSum];
+
+        prefixSumCount[currentSum]++;
+        count += dfs(node->left, currentSum, targetSum, prefixSumCount);
+        count += dfs(node->right, currentSum, targetSum, prefixSumCount);
+
+        prefixSumCount[currentSum]--;
+        if (prefixSumCount[currentSum] == 0) prefixSumCount.erase(currentSum);
+
         return count;
     }
 };
