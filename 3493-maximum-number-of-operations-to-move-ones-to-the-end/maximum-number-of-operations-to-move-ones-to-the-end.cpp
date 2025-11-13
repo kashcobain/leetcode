@@ -1,26 +1,21 @@
 class Solution {
 public:
     int maxOperations(string s) {
-        int  n=s.size();
-        int moves=0;
+        int n=s.size();
         int ones=0;
-          bool flag=false;
+        int ans=0;
         for(int i=0;i<n;i++)
         {
-             
-           
             if(s[i]=='1')
             {
                 ones++;
-                flag=true;
             }
-            if(s[i]=='0' && flag)
+            else if((i>0) && s[i-1]=='1')
             {
-                moves+=ones;
-                flag=!flag;
+                ans+=ones;
             }
         }
-
-        return moves;
+        return ans;
+        
     }
 };
