@@ -1,35 +1,46 @@
 class Solution {
 public:
-    int intersectionSizeTwo(vector<vector<int>>& intervals) {
-        sort(intervals.begin(), intervals.end(),
-             [](const vector<int>& a, const vector<int>& b) {
-                 return a[1] < b[1];
-             });
 
-        int prev1 = intervals[0][1] - 1;
-        int prev2 = intervals[0][1];
-        int count = 2;
+    static bool check(vector<int> a,vector<int> b){
 
-        for (int i = 1; i < intervals.size(); i++) {
-            int start = intervals[i][0];
-            int end   = intervals[i][1];
-            if (prev2 < start) {
-                prev1 = end - 1;
-                prev2 = end;
-                count += 2;
-            }
-            else if (prev1 < start) {
-                if (end == prev2)
-                    prev1 = end - 1;
-                else
-                    prev1 = end;
-                if (prev1 > prev2)
-                    std::swap(prev1, prev2);
-
-                count += 1;
-            }
+        if(a[1]==b[1]){
+            return a[0]>b[0];
         }
+        return a[1]<b[1];
+    }
+    int intersectionSizeTwo(vector<vector<int>>& intervals) {
+        int count =2;
 
+        sort(intervals.begin(),intervals.end(),check);
+
+        vector<int> maxi(2,0);
+        maxi[0]=intervals[0][1]-1;
+        maxi[1]=intervals[0][1];
+        int n = intervals.size();
+
+        for(int i=1;i<n;i++){
+           
+            if(maxi[1]<intervals[i][0]){
+                count+=2;
+                maxi[0]=intervals[i][1]-1;
+                maxi[1]=intervals[i][1];
+            }else if(maxi[0]<intervals[i][0]){
+
+
+                if(maxi[1]== intervals[i][1]){
+
+                }
+                count+=1;
+                maxi[0]= maxi[1];
+                maxi[1]=intervals[i][1];
+
+              
+
+
+            }
+             cout<<intervals[i][0]<<" "<<intervals[i][1]<<" "<<count<<endl;
+        }
         return count;
+
     }
 };
