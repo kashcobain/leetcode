@@ -1,23 +1,27 @@
 class Solution {
 public:
-    void backtrack( vector<vector<int>> &ans,vector<int> temp,vector<int>& nums,int start)
+void ans(vector<int> nums,vector<int> op,vector<vector<int>> &answ)
+{
+    if(nums.size()==0)
     {
-        int n=nums.size();
-        ans.push_back(temp);
-        for(int i=start;i<n;i++)
-        {
-            temp.push_back(nums[i]);
-            backtrack(ans,temp,nums,i+1);
-            temp.pop_back();
-        }
+        answ.push_back(op);
+    return;
+
     }
+    vector<int> op1=op;
+    vector<int> op2=op;
+    op2.push_back(nums[0]);
+    nums.erase(nums.begin());
+    ans(nums,op1,answ);
+    ans(nums,op2,answ);
+
+
+}
     vector<vector<int>> subsets(vector<int>& nums) {
-        int n=nums.size();
-        vector<vector<int>> ans;
-        sort(nums.begin(),nums.end());
-        vector<int> temp;
-        backtrack(ans,temp,nums,0);
-        return ans;
+        vector<vector<int>> answ;
+        vector<int> op;
+        ans(nums,op,answ);
+        return answ;
 
         
     }
