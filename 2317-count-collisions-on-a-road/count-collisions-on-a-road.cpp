@@ -1,50 +1,20 @@
 class Solution {
 public:
-    int countCollisions(string s) {
-        stack<char> st;
-        int n=s.size();
+    int countCollisions(string directions) {
+        int n=directions.size();
+        int l=0;
+        int r=n-1;
         int count=0;
-     
-        for(char c:s)
+        while(l<n &&directions[l]=='L')l++;
+        while(r>=0 &&directions[r]=='R')r--;
+        for(int i=l;i<=r;i++)
         {
-            
-
-            if(c=='R')
+            if(directions[i]!='S')
             {
-                st.push(c);
+                count++;
             }
-            else if(c=='S')
-            {
-                while(!st.empty() && st.top()=='R')
-                {
-                    count++;
-                    st.pop();
-                }
-                st.push('S');
-            }
-            else{
-                if(st.empty())
-                {
-                    continue;
-                }
-                if(st.top()=='S')
-                {
-                    count++;
-                }
-                else if(st.top()=='R')
-                {
-                    count+=2;
-                    st.pop();
-                    while(!st.empty() && st.top()=='R')
-                    {
-                        st.pop();
-                        count++;
-                    }
-                }
-st.push('S');
-            }
-
         }
-        return count;
+return count;
+        
     }
 };
