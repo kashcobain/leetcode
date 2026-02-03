@@ -6,19 +6,16 @@ public:
 
         int i = 0;
 
-        // 1️⃣ strictly increasing
         while (i + 1 < n && nums[i + 1] > nums[i]) {
             i++;
         }
         if (i == 0 || i == n - 1) return false;
 
-        // 2️⃣ strictly decreasing
         while (i + 1 < n && nums[i + 1] < nums[i]) {
             i++;
         }
         if (i == n - 1) return false;
 
-        // 3️⃣ strictly increasing
         while (i + 1 < n && nums[i + 1] > nums[i]) {
             i++;
         }
