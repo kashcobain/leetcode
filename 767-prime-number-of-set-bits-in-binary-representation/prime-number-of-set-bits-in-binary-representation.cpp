@@ -7,16 +7,16 @@ public:
         {
             return false;
         }
-    for(int i=1;i<=n;i++)
+    for(int i=2;i*i<=n;i++)
     {
         if(n%i==0)
         {
             cnt++;
         }
     }
-    if(cnt<=2)return true;
+    if(cnt>0)return false;
     else{
-        return false;
+        return true;
     }
     }
     int countPrimeSetBits(int left, int right) {
