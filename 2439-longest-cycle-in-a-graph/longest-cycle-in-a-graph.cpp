@@ -1,53 +1,38 @@
 class Solution {
 public:
-
-    void dfs(int node,
-             vector<int>& edges,
-             vector<int>& vis,
-             vector<int>& pathvis,
-             vector<int>& depth,
-             int d,
-             int& ans)
+    int maxlen=-1;
+    void dfs(int cyclelength,int node,vector<int> &vis,vector<int> &currpath,vector<int> &edges)
     {
-        vis[node] = 1;
-        pathvis[node] = 1;
-        depth[node] = d;
-
-        int next = edges[node];
-
-        if(next != -1)
+        cyclelength++;
+        currpath[node]=cyclelength;
+        vis[node]=1;
+        int nbr=edges[node];
+        if(nbr!=-1)
         {
-            if(!vis[next])
+            if(!vis[nbr])
             {
-                dfs(next, edges, vis, pathvis, depth, d+1, ans);
+                dfs(cyclelength,nbr,vis,currpath,edges);
             }
-            else if(pathvis[next])
-            {
-                // cycle found
-                ans = max(ans, d - depth[next] + 1);
+            else if(currpath[nbr]!=0){
+                int curcyclen=currpath[node]-currpath[nbr]+1;
+                maxlen=max(maxlen,curcyclen);
             }
+            
         }
-
-        pathvis[node] = 0; // backtrack
+        currpath[node]=0;
     }
-
     int longestCycle(vector<int>& edges) {
-
-        int n = edges.size();
-        vector<int> vis(n, 0);
-        vector<int> pathvis(n, 0);
-        vector<int> depth(n, 0);
-
-        int ans = -1;
-
-        for(int i = 0; i < n; i++)
+        int n=edges.size();
+        vector<int> vis(n,0);
+        vector<int> currpath(n,0);
+        for(int i=0;i<n;i++)
         {
-            if(!vis[i])
+            if(vis[i]!=1)
             {
-                dfs(i, edges, vis, pathvis, depth, 0, ans);
+                dfs(0,i,vis,currpath,edges);
             }
         }
+        return maxlen;
 
-        return ans;
     }
 };
