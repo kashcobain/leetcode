@@ -5,10 +5,8 @@ public:
         if(root == nullptr)
             return;
 
-        // current node value add karo
         temp += to_string(root->val);
 
-        // agar leaf node hai to store karo
         if(root->left == nullptr && root->right == nullptr) {
             ans.push_back(temp);
         }
