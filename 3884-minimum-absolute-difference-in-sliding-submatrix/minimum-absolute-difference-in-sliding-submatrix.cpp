@@ -9,7 +9,7 @@ public:
         for(int i=0;i+k<=m;i++){
             for(int j=0;j+k<=n;j++){
 
-                set<int> st; // FIXED
+                set<int> st; 
 
                 for(int x=i;x<i+k;x++){
                     for(int y=j;y<j+k;y++){
