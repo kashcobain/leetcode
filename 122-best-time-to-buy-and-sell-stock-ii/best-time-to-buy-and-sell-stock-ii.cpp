@@ -9,19 +9,19 @@ public:
             return dp[i][j];
 
         if(j) { 
-            dp[i][j] = max(
+           return dp[i][j] = max(
                 solve(i+1, 0, prices, dp) - prices[i], 
                 solve(i+1, 1, prices, dp)             
             );
         } 
         else { 
-            dp[i][j] = max(
+           return dp[i][j] = max(
                 prices[i] + solve(i+1, 1, prices, dp), 
                 solve(i+1, 0, prices, dp)             
             );
         }
 
-        return dp[i][j];
+      
     }
 
     int maxProfit(vector<int>& prices) {
