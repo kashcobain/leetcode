@@ -1,37 +1,36 @@
 class Solution {
 public:
-    bool ispal(int i, int j, string &s) {
-        while(i < j) {
-            if(s[i] != s[j]) return false;
-            i++;
-            j--;
-        }
-        return true;
-    }
-
-    int f(int i, string &s, vector<int> &dp) {
+    int minCut(string s) {
         int n = s.size();
 
-        if(i == n) return 0;
+    
+        vector<vector<bool>> pal(n, vector<bool>(n, false));
 
-        if(dp[i] != -1) return dp[i];
-
-        int mini = INT_MAX;
-
-        for(int j = i; j < n; j++) {
-            if(ispal(i, j, s)) {
-                int cost = 1 + f(j + 1, s, dp);
-                mini = min(mini, cost);
+        for(int i = n-1; i >= 0; i--) {
+            for(int j = i; j < n; j++) {
+                if(s[i] == s[j] && (j - i <= 2 || pal[i+1][j-1])) {
+                    pal[i][j] = true;
+                }
             }
         }
 
-        return dp[i] = mini;
-    }
+        
+        vector<int> dp(n+1, 0);
+        dp[n] = 0;
 
-    int minCut(string s) {
-        int n = s.size();
-        vector<int> dp(n, -1);
+        for(int i = n-1; i >= 0; i--) {
+            int mincost = INT_MAX;
 
-        return f(0, s, dp) - 1;  
+            for(int j = i; j < n; j++) {
+                if(pal[i][j]) {
+                    int cost = 1 + dp[j+1];
+                    mincost = min(mincost, cost);
+                }
+            }
+
+            dp[i] = mincost;
+        }
+
+        return dp[0] - 1;
     }
 };
