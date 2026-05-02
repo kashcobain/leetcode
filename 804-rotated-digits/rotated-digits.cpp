@@ -1,31 +1,29 @@
 class Solution {
 public:
-    bool isGood(int num) {
-        bool changed = false;
-
-        while (num > 0) {
-            int d = num % 10;
-
+    int solve(string s,int pos,bool tight,bool changed)
+    {
+        if(pos==s.size())
+        {
+            return changed?1:0;
             
-            if (d == 3 || d == 4 || d == 7) return false;
-
-            
+        }
+        int ans=0;
+        int limit=(tight?(s[pos]-'0'):9);
+        for(int d=0;d<=limit;d++)
+        {
+            if(d==3||d==4||d==7)continue;
+            bool newtight=(tight && (d==limit));
+            bool newChanged = changed;
             if (d == 2 || d == 5 || d == 6 || d == 9)
-                changed = true;
+            newChanged=true;
+            ans += solve(s, pos + 1, newtight, newChanged);
 
-            num /= 10;
         }
-
-        return changed;
+        return ans;
     }
-
     int rotatedDigits(int n) {
-        int count = 0;
-
-        for (int i = 1; i <= n; i++) {
-            if (isGood(i)) count++;
-        }
-
-        return count;
+        string s=to_string(n);
+        return solve(s,0,true,false);
+        
     }
 };
