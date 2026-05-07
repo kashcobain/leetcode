@@ -1,37 +1,46 @@
 class Solution {
 public:
-    int minFallingPathSum(vector<vector<int>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
 
-        vector<vector<int>> dp(n, vector<int>(m, 0));
-
-        for(int j = 0; j < m; j++) {
-            dp[0][j] = grid[0][j];
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        vector<vector<int>> dp(n,
+                               vector<int>(n, 0));
+        for(int j = 0; j < n; j++) {
+            dp[n-1][j] = matrix[n-1][j];
         }
+        for(int i = n-2; i >= 0; i--) {
 
-        for(int i = 1; i < n; i++) {
-            for(int j = 0; j < m; j++) {
+            for(int j = 0; j < n; j++) {
 
-                int up = grid[i][j] + dp[i-1][j];
+                int down =
+                    matrix[i][j]
+                    + dp[i+1][j];
 
-                int ld = INT_MAX;
-                int rd = INT_MAX;
+                int leftDiag = 1e9;
 
-                if(j-1 >= 0)
-                    ld = grid[i][j] + dp[i-1][j-1];
+                if(j-1 >= 0) {
+                    leftDiag =
+                        matrix[i][j]
+                        + dp[i+1][j-1];
+                }
 
-                if(j+1 < m)
-                    rd = grid[i][j] + dp[i-1][j+1];
+                int rightDiag = 1e9;
 
-                dp[i][j] = min({up, ld, rd});
+                if(j+1 < n) {
+                    rightDiag =
+                        matrix[i][j]
+                        + dp[i+1][j+1];
+                }
+
+                dp[i][j] =
+                    min({down, leftDiag, rightDiag});
             }
         }
 
         int ans = INT_MAX;
+        for(int j = 0; j < n; j++) {
 
-        for(int j = 0; j < m; j++) {
-            ans = min(ans, dp[n-1][j]);
+            ans = min(ans, dp[0][j]);
         }
 
         return ans;
