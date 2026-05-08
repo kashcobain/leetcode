@@ -24,7 +24,7 @@ public:
         ListNode* slow = head;
         ListNode* fast = head;
 
-        // correct middle finding
+       
         while(fast->next && fast->next->next)
         {
             slow = slow->next;
