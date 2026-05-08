@@ -21,38 +21,30 @@ public:
 
     bool isPalindrome(ListNode* head) {
 
-        // create copy
-        ListNode* dummy = new ListNode(-1);
-        ListNode* temp = dummy;
+        ListNode* slow = head;
+        ListNode* fast = head;
 
-        ListNode* curr = head;
-
-        while(curr) {
-
-            temp->next =
-                new ListNode(curr->val);
-
-            temp = temp->next;
-
-            curr = curr->next;
+        // correct middle finding
+        while(fast->next && fast->next->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
         }
 
-       
-        ListNode* copied =
-            dummy->next;
+        ListNode* second =
+            reverse(slow->next);
 
-  
-        ListNode* rev =
-            reverse(copied);
+        ListNode* first = head;
 
-    
-        while(head && rev) {
-
-            if(head->val != rev->val)
+        while(second)
+        {
+            if(second->val != first->val)
+            {
                 return false;
+            }
 
-            head = head->next;
-            rev = rev->next;
+            second = second->next;
+            first = first->next;
         }
 
         return true;
