@@ -21,8 +21,26 @@ public:
     }
     int jump(vector<int>& nums) {
         int n=nums.size();
-        vector<int> dp(n,-1);
-        return solve(0,nums,dp);
+        vector<int> dp(n,0);
+
+        for(int ind=n-2;ind>=0;ind--)
+        {
+             int ans=INT_MAX;
+            for(int j=ind+1;j<min(ind+nums[ind]+1,n);j++)
+        {
+            int jump=dp[j];
+            if(jump!=INT_MAX)
+            {
+                ans=min(ans,1+jump);
+
+            }
+            
+    
+        }
+        dp[ind]=ans;
+
+        }
+        return dp[0];
 
         
     }
