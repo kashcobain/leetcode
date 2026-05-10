@@ -1,19 +1,17 @@
 class Solution {
 public:
-
-    int jumps(int ind, vector<int>& nums, int target, vector<int>& dp)
-    {
+    int maximumJumps(vector<int>& nums, int target) {
         int n = nums.size();
-        if(ind == n - 1)
-            return 0;
-        if(dp[ind] != -1)
-            return dp[ind];
+        vector<int> dp(n, INT_MIN);
+        dp[n-1]=0;
+    for(int ind=n-2;ind>=0;ind--)
+    {
         int ans = INT_MIN;
         for(int i = ind + 1; i < n; i++)
         {
             if(abs(nums[i] - nums[ind]) <= target)
             {
-                int next = jumps(i, nums, target, dp);
+                int next =dp[i];
 
                 
                 if(next != INT_MIN)
@@ -22,18 +20,13 @@ public:
                 }
             }
         }
+        dp[ind]=ans;
 
-        return dp[ind] = ans;
     }
+if(dp[0]==INT_MIN)return -1;
+        
+        else
 
-    int maximumJumps(vector<int>& nums, int target) {
-        int n = nums.size();
-        vector<int> dp(n, -1);
-        int val = jumps(0, nums, target, dp);
-
-        if(val == INT_MIN)
-            return -1;
-
-        return val;
+        {return dp[0];}
     }
 };
