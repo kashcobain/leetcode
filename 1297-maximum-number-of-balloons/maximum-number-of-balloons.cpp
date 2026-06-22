@@ -1,17 +1,18 @@
 class Solution {
 public:
     int maxNumberOfBalloons(string text) {
-        int n=text.size();
-        unordered_map<char,int> mp;
-        for(int i=0;i<n;i++)
-        {
-            mp[text[i]]++;
-        }
-        mp['l']=mp['l']/2;
-        mp['o']=mp['o']/2;
-        int mini=INT_MAX;
+        vector<int> count(26, 0);
 
-        return mini=min({mp['b'],mp['a'],mp['l'],mp['o'],mp['n']});
-        
+        for (char c : text) {
+            count[c - 'a']++;
+        }
+
+        return min({
+            count['b' - 'a'],
+            count['a' - 'a'],
+            count['l' - 'a'] / 2,
+            count['o' - 'a'] / 2,
+            count['n' - 'a']
+        });
     }
 };
