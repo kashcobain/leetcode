@@ -3,20 +3,15 @@ public:
     int removeDuplicates(vector<int>& nums) {
         int n=nums.size();
         if(n<=2)return n;
-        int left=1;
-        int right=1;
-        int cnt=1;
-        while(right<n)
+       int j=1;
+       for(int i=1;i<n;i++)
+       {
+        if(j==1||nums[i]!=nums[j-2])
         {
-            if(nums[right]==nums[right-1])cnt++;
-            else cnt=1;
-            if(cnt<=2){
-                nums[left]=nums[right];
-                left++;
-            }
-            right++;
-
+            nums[j]=nums[i];
+            j++;
         }
-        return left;
+       }
+       return j;
     }
 };
