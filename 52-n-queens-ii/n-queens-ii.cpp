@@ -5,32 +5,32 @@ unordered_map<int,bool>left_downMap;
 unordered_map<int,bool>left_upMap;
 
 int totalNQueens(int n) {
-    vector<vector<string>> ans;
+    int ans=0;
     vector<string> board (n,string(n,'.'));
     solve(0,n,board,ans);
-    return ans.size();
+    return ans;
 }
 
-void solve(int col, int n, vector<string>& board, vector<vector<string>>& ans){
+void solve(int col, int n, vector<string>& board, int &ans){
 
     if(col==n){
-        ans.push_back(board);
+       ans++;
         return;
     }
 
     for(int row = 0; row < n; row++){
         if(isValid(row,col,n)){
-            // setting in maps
+          
             rowMap[row] = true;
             left_downMap[row+col+n] = true;
             left_upMap[row-col+n] = true;
 
-            // making recursive calls
+          
             board[row][col] = 'Q';
             solve(col+1,n,board,ans);
             board[row][col] = '.';
 
-            // unsetting in maps
+           
             rowMap[row] = false;
             left_downMap[row+col+n] = false;
             left_upMap[row-col+n] = false;
