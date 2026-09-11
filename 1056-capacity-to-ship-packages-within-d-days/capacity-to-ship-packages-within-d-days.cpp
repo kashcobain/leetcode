@@ -8,8 +8,7 @@ public:
         }
         else{
             req_day++;
-            if(it > mid)
-                return false;
+            
             temp = mid - it;
         }
     }
