@@ -10,37 +10,25 @@
  */
 class Solution {
 public:
-    int findlen(ListNode* head)
-    {
-         ListNode* curr=head;
-        int cnt=1;
-        while(curr->next)
-        {
-            curr=curr->next;
-            cnt++;
-
-        }
-        curr->next=head;
-        return cnt;
-    }
     ListNode* rotateRight(ListNode* head, int k) {
-        ListNode* curr=head;
-        if(head==nullptr || k==0)
+        int len=1;
+        ListNode* temp=head;
+        if(head==nullptr)return nullptr;
+        while(temp->next)
         {
-            return head;
-
+            temp=temp->next;
+            len++;
         }
-        int n=findlen(head);
-         k=k%n;
-        for(int i=0;i<n-k-1;i++)
+        temp->next=head;
+        k=k%len;
+        ListNode* curr=head;
+        for(int i=0;i<len-k-1;i++)
         {
             curr=curr->next;
-
         }
-         ListNode* newHead = curr->next;
-         curr->next = NULL;
-         return newHead;
-
+        ListNode* newh=curr->next;
+        curr->next=nullptr;
+        return newh;
 
         
     }
